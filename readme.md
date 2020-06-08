@@ -18,7 +18,7 @@ Without PyGame, the game can still be played from the command line with any vers
 python3 -m pip install pygame
 ```
 
-If you don't have admin rights, or would like to only install PyGame for your current user profile, try adding the *user* flag, like so:
+If you don't have admin rights, or would like to only install PyGame for your current user profile, try adding the `user` flag, like so:
 
 ```
 python3 -m pip install pygame --user
