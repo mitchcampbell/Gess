@@ -7,7 +7,7 @@ def make_tokens(screen, game, x_off, y_off):
     Creates a list of Token rects based on current board state, for drawing to the board.
     """
     # Draws tokens on board
-    board = game.get_board().get_state()
+    board = game.game.get_board().get_state()
 
     # For each tile on board, if the tile is not blank, creates Token and adds to list
     tokens = []

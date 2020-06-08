@@ -1,4 +1,12 @@
+import GessGame as GG
 import pygame as pg
+
+
+class GameState:
+
+    def __init__(self):
+        self.game = GG.GessGame()
+        self.settings = Settings()
 
 
 class Settings:
@@ -10,8 +18,3 @@ class Settings:
         self.board_y_offset = 100
         self.bg_image = pg.image.load("game_images/board.bmp")
 
-
-# class Game_State:
-#
-#     def __init__(self):
-#         # TODO Move game state parameters here

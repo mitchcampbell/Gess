@@ -1,6 +1,5 @@
 import sys
 import pygame as pg
-import GessGame as GG
 import _state as st
 import _rects as r
 import _functions as f
@@ -11,19 +10,20 @@ def run_game():
     # Initializes PyGame
     pg.init()
 
+    # Creates initial game state
+    game = st.GameState()
+
     # Retrieves game settings
-    settings = st.Settings()
+    set = game.settings
+    x_off = set.board_x_offset
+    y_off = set.board_y_offset
 
     # Creates viewing window
-    screen = pg.display.set_mode((settings.screen_width, settings.screen_height))
+    screen = pg.display.set_mode((set.screen_width, set.screen_height))
     pg.display.set_caption("Gess")
-    x_off = settings.board_x_offset
-    y_off = settings.board_y_offset
 
     #
     background = r.Board(screen)
-
-    game = GG.GessGame()
 
     # Initializes variables used to track game state
     won = False
@@ -67,7 +67,7 @@ def run_game():
                         tr = f.tile_translate
                         # Translates x, y positions of mouse click to game board tile inputs
                         # and attempts move
-                        game.make_move(
+                        game.game.make_move(
                             tr(start_pos[0] - x_off, start_pos[1] - y_off),
                             tr(click_pos[0] - x_off, click_pos[1] - y_off)
                         )
@@ -92,8 +92,8 @@ def run_game():
             token.blitme()
 
         # TODO
-        if game.get_game_state() != "UNFINISHED":
-            win_message = r.WinMessage(game.get_game_state()[:5])
+        if game.game.get_game_state() != "UNFINISHED":
+            win_message = r.WinMessage(game.game.get_game_state()[:5])
             screen.blit(win_message.message, (50, 340))
 
             # for event in pg.event.get():
