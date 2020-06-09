@@ -6,7 +6,6 @@ import _functions as f
 
 
 def run_game():
-
     # Initializes PyGame
     pg.init()
 
@@ -27,12 +26,16 @@ def run_game():
 
     # Initializes variables used to track game state
     won = False
-    winner = None
     start_pos = None
     t_border = None
+    again = False
 
     # Main gameplay loop
     while True:
+
+        if again:
+            game.new_game()
+            again = False
 
         if not won:
 
@@ -44,7 +47,11 @@ def run_game():
                     sys.exit()
 
                 # Checks for any clicks of the Left Mouse Button (LMB)
-                elif event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                elif \
+                        event.type == pg.MOUSEBUTTONDOWN \
+                        and event.button == 1 \
+                        and 100 < event.pos[0] < 900 \
+                        and 100 < event.pos[1] < 900:
 
                     # If the starting position has not already been selected,
                     # sets mouse click to starting move position and creates
@@ -93,12 +100,31 @@ def run_game():
 
         # TODO
         if game.game.get_game_state() != "UNFINISHED":
-            win_message = r.WinMessage(game.game.get_game_state()[:5])
-            screen.blit(win_message.message, (50, 340))
 
-            # for event in pg.event.get():
-            #     if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-            #         # TODO Check whether mouse clicked on "Play Again"
+            # pg.draw.rect(screen, RGB color, Rect((from_left, from_top), (width, height))
+            pg.draw.rect(screen, (225, 225, 200), pg.Rect((50, 400), (900, 200), width=5, border_radius=5))
+            pg.draw.rect(screen, (125, 125, 100), pg.Rect((275, 525), (150, 50), width=5, border_radius=5))
+            pg.draw.rect(screen, (125, 125, 100), pg.Rect((575, 525), (150, 50), width=5, border_radius=5))
+
+            win_message = r.WinMessage(game.game.get_game_state()[:5])
+            replay_text = r.Button("Replay")
+            exit_text = r.Button("Exit")
+
+            screen.blit(win_message.message, (250, 420))
+            screen.blit(replay_text.button_text, (300, 535))
+            screen.blit(exit_text.button_text, (625, 535))
+
+            pg.display.update()
+
+            while not again:
+                for event in pg.event.get():
+                    if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                        if 525 < event.pos[1] < 575:
+                            if 275 < event.pos[0] < 425:
+                                again = True
+
+                            elif 575 < event.pos[0] < 725:
+                                sys.exit()
 
         pg.display.update()
 
