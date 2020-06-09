@@ -3,6 +3,9 @@
 # Description: GessGame.py contains Piece, Board and GessGame classes
 
 
+import sys
+
+
 class Piece:
     """
     The Piece class represents a 3x3 square of tiles that will be moved
@@ -46,16 +49,12 @@ class Piece:
         self._possible_directions = self.set_possible_directions()
 
     def get_grid(self):
-        """
-        Returns _grid
-        """
+        """ Returns _grid """
 
         return self._grid
 
     def get_possible_directions(self):
-        """
-        Returns _possible_directions
-        """
+        """ Returns _possible_directions """
 
         return self._possible_directions
 
@@ -90,9 +89,7 @@ class Piece:
         return True
 
     def place(self, board, c):
-        """
-        Places the piece object on a board
-        """
+        """ Places the piece object on the board """
 
         top_left = (c[0] - 1, c[1] - 1)
 
@@ -109,9 +106,7 @@ class Board:
     """
 
     def __init__(self):
-        """
-        A board is created upon the creation of a GessGame object.
-        """
+        """ A board is created upon the creation of a GessGame object. """
 
         self._winner = None
         self._state = [
@@ -139,30 +134,22 @@ class Board:
         ]
 
     def get_state(self):
-        """
-        Returns _state
-        """
+        """ Returns current board state """
 
         return self._state
 
     def get_winner(self):
-        """
-        Returns game winner
-        """
+        """ Returns game winner """
 
         return self._winner
 
     def set_winner(self, winner):
-        """
-        Sets game winner
-        """
+        """ Sets game winner """
 
         self._winner = winner
 
     def set_tile(self, tile, val):
-        """
-        Sets the given board position (tile) to the given value (val)
-        """
+        """ Sets the given board position (tile) to the given value (val) """
 
         self._state[tile[0]][tile[1]] = val
 
@@ -181,14 +168,12 @@ class Board:
         Returns True if move is executed, False if not
         """
 
-        piece = Piece(self, start)
-
         # Represents the proposed movement of the piece as (y, x)
         move = (end[0] - start[0], end[1] - start[1])
 
         temp_state = [list(each) for each in self._state]
 
-        if not self.legal(start, end, piece, move, player, opponent):
+        if not self.legal(start, end, move, player, opponent):
             self._state = [list(each) for each in temp_state]
             return False
 
@@ -197,7 +182,7 @@ class Board:
 
         return True
 
-    def legal(self, start, end, piece, move, player, opponent):
+    def legal(self, start, end, move, player, opponent):
         """
         Checks legality of intended move.
         If move is not legal, returns False. Else, returns True.
@@ -220,6 +205,8 @@ class Board:
         for ord in start + end:
             if ord < 1 or ord > 19:
                 return False
+
+        piece = Piece(self, start)
 
         # Checks that there are none of the opposing teams' stones inside the piece
         for row in piece.get_grid():
@@ -269,7 +256,7 @@ class Board:
         blank.place(self, start)
 
         for coord in self.coordinate_generator(start, end, move):
-            print("coord", coord)
+
             temp_piece = Piece(self, coord)
             if not temp_piece.is_empty():
                 return False
@@ -287,6 +274,7 @@ class Board:
             for col in (0, 19):
                 self._state[row][col] = " "
 
+        # Do not execute proposed move if it leaves the player with no rings
         if not self.ring_check(player):
             return False
 
@@ -305,7 +293,7 @@ class Board:
         if move[1] == 0:
             y = start[0]
             while abs(y - end[0]) > 0:
-                yield (y, start[1])
+                yield y, start[1]
                 if start[0] < end[0]:
                     y += 1
                 else:
@@ -322,7 +310,7 @@ class Board:
                 else:
                     x = x - 1
 
-        # Generates coordinates for a diagonal move
+        # Generates coordinates for a diagonal move use slope-intercept formula for a line
         else:
             delta_x = move[1]
             delta_y = move[0]
@@ -346,9 +334,7 @@ class Board:
                 yield (y_list[each], x_list[each])
 
     def ring_check(self, player):
-        """
-        Checks if at least one ring for the given player exist on the board
-        """
+        """ Checks if at least one ring for the given player exist on the board """
 
         for y in range(2, 19):
             for x in range(2, 19):
@@ -364,7 +350,7 @@ class Board:
                                     ring_assume = False
 
                     if ring_assume:
-                        # print(player, "has a ring at:", y, x)
+
                         return True
 
         return False
@@ -402,23 +388,17 @@ class GessGame:
         return self._game_state
 
     def get_current_player(self):
-        """
-        Returns color of current player
-        """
+        """ Returns color of current player """
 
         return self._player
 
     def get_board(self):
-        """
-        Returns the game's board
-        """
+        """ Returns the game's board """
 
         return self._board
 
     def switch_teams(self):
-        """
-        Switches current player and opponent
-        """
+        """ Switches current player and opponent """
 
         if self._player == "BLACK":
 
@@ -444,11 +424,7 @@ class GessGame:
         return None
 
     def resign_game(self):
-        """
-        Lets a team forfeit the game, calling the game for the opposing team.
-
-        Returns None
-        """
+        """ Lets a team forfeit the game, calling the game for the opposing team. """
 
         # Does not allow the game to be resigned if it has already ended
         if self._game_state != "UNFINISHED":
@@ -479,8 +455,6 @@ class GessGame:
         Returns True if move successfully made, returns False if not
         """
 
-        print("Player:", self.get_current_player(), "-- Start:", start, "-- End:", end)
-
         # Translates alphanumeric piece names into 2-d array indices
         start = self.graph(start)
         end = self.graph(end)
@@ -502,9 +476,7 @@ class GessGame:
         return True
 
     def display_board(self):
-        """
-        Used for testing. Displays board.
-        """
+        """ Displays board on the command line """
 
         alpha_columns = "abcdefghijklmnopqrst"
         num_rows = "0102030405060708091011121314151617181920"
@@ -524,35 +496,40 @@ class GessGame:
         for lett in alpha_columns:
             print(lett, " ", end='')
 
+        print()
+
 
 # All lines below this point are for testing only.
 def main():
 
-    g = GessGame()
+    while True:
+        g = GessGame()
+        new_game = False
 
-    # p = Piece(g.get_board(), g.graph("c4"))
-    # for each in p.get_grid():
-    #     print(each)
-    #
-    # p.place(g.get_board(), g.graph("c11"))
+        print("To play, enter starting and ending tiles in format: g7 or g07")
 
-    # g.make_move("f7", "f11")
-    #
-    # print(g.get_current_player(), g.make_move("f14", "l8"))  # BLACK's turn, illegal
-    print(g.get_current_player(), g.make_move("c6", "c8"))  # BLACK's turn, legal
-    print(g.get_current_player(), g.make_move("l8", "l5"))   # WHITE's turn, illegal
-    print(g.get_current_player(), g.make_move("l14", "r8"))  # WHITE's turn, legal
-    print(g.get_current_player(), g.make_move("m6", "j9"))   # BLACK's turn, legal
-    print(g.get_current_player(), g.make_move("r18", "r3"))  # WHITE's turn, illegal
-    print("Attempt resign:", g.resign_game())  # declares BLACK as winner
-    print("Board Winner:", g.get_board().get_winner())
-    print("Game State:", g.get_game_state())
-    print("Current Player:", g.get_current_player())
-    print(g.get_current_player(), g.make_move("c14", "c13"))
+        while not new_game:
+            g.display_board()
 
-    g.display_board()
+            print("Player turn:", g.get_current_player())
 
-    return None
+            start_pos = input("Start tile: ")
+            end_pos = input("End tile: ")
+
+            if not g.make_move(start_pos, end_pos):
+                print("Illegal move")
+
+            if g.get_game_state() != "UNFINISHED":
+                print(g.get_board().get_winner(), "WINS!")
+
+                again = None
+                while again not in ["y", "n"]:
+                    again = input("Play again? (y/n): ")
+
+                if again in ["y", "Y", "yes", "Yes", "YES"]:
+                    new_game = True
+                else:
+                    sys.exit()
 
 
 if __name__ == "__main__":
