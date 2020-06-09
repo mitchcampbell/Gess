@@ -1,8 +1,3 @@
-# Name: Mitch Campbell
-# Date: 14-May-2020
-# Description: GessGame.py contains Piece, Board and GessGame classes
-
-
 import sys
 
 
@@ -16,7 +11,7 @@ class Piece:
     stones after a move is successfully made.
     """
 
-    def __init__(self, board, c, clear = False):
+    def __init__(self, board, c, clear=False):
         """
         Initializes a Piece object.
 
@@ -32,11 +27,14 @@ class Piece:
             would be (1, -1)
         """
 
+        # If clear parameter is passed, creates empty piece
         if clear:
             self._grid = [[" ", " ", " "],
                           [" ", " ", " "],
                           [" ", " ", " "]]
 
+        # If piece is not intended to be empty, creates piece based on given
+        # board center tile position
         else:
             self._grid = [["", "", ""],
                           ["", "", ""],
