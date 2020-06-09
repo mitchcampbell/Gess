@@ -49,3 +49,5 @@ python game\GessGame.py
 ### Work Left To Do
 
 This game is a work in progress. A list of intended features I intend to add can be found on [the project's Kanban board](https://github.com/users/mitchcampbell/projects/3).
+
+Given that this game began as a project with a few strict requirements for how it should be interacted with, and the PyGame GUI was grafted on after completion, there are some peculiarities in the architecture and design. For example, most of the (for lack of a better term) "back end" game logic resides in a single file, GessGame.py, and the files starting with an underscore "_" contain the means by which the PyGame GUI "plays" GessGame.py. That said, the game doesn't really require much in the way of performance, so I may or may not recreate the project depending on if it seems like a worthwhile learning experience.
