@@ -2,7 +2,7 @@
 
 ### Motivation
 
-My final project for CS162 was an implementation of the board game [Gess](https://www.chessvariants.com/crossover.dir/gess.html) in Python, playable from the command line. After completion, I decided to make the game playable via a GUI interface which I've implemented using [PyGame](https://www.pygame.org/).
+My final project for CS162 was an implementation of the board game [Gess](https://www.chessvariants.com/crossover.dir/gess.html) in Python, playable from the command line. After completion, I decided to make the game playable via a GUI interface using [PyGame](https://www.pygame.org/).
 
 ### What You'll Need
 
@@ -33,6 +33,18 @@ If you are still having trouble installing PyGame, please visit the PyGame Wiki'
 ### How To Play
 
 The game rules are available [here](https://www.chessvariants.com/crossover.dir/gess.html#:~:text=There%20are%20two%20players%2C%20black,belonging%20to%20the%20opposing%20player.).
+
+**PyGame**
+
+```
+python game\_pygame.py
+```
+
+**Command Line**
+
+```
+python game\GessGame.py
+```
 
 ### Work Left To Do
 
