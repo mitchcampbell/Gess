@@ -8,6 +8,9 @@ class GameState:
         self.game = GG.GessGame()
         self.settings = Settings()
 
+    def new_game(self):
+        self.game = GG.GessGame()
+
 
 class Settings:
 
