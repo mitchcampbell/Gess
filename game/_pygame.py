@@ -25,19 +25,18 @@ def run_game():
     background = r.Board(screen)
 
     # Initializes variables used to track game state
-    won = False
     start_pos = None
     t_border = None
-    again = False
+    play_again = False
 
-    # Main gameplay loop
     while True:
 
-        if again:
+        if play_again:
             game.new_game()
             again = False
 
-        if not won:
+        # If game is not over, executes main gameplay loop
+        if game.game.get_game_state() == "UNFINISHED":
 
             # Iterates over all input events received since previous loop
             for event in pg.event.get():
@@ -98,17 +97,17 @@ def run_game():
         for token in tokens:
             token.blitme()
 
-        # TODO
+        # If game is over, draws game over message to screen
         if game.game.get_game_state() != "UNFINISHED":
 
             # pg.draw.rect(screen, RGB color, Rect((from_left, from_top), (width, height))
-            pg.draw.rect(screen, (225, 225, 200), pg.Rect((50, 400), (900, 200), width=5, border_radius=5))
-            pg.draw.rect(screen, (125, 125, 100), pg.Rect((275, 525), (150, 50), width=5, border_radius=5))
-            pg.draw.rect(screen, (125, 125, 100), pg.Rect((575, 525), (150, 50), width=5, border_radius=5))
+            pg.draw.rect(screen, (225, 225, 200), pg.Rect((50, 400), (900, 200)))
+            pg.draw.rect(screen, (125, 125, 100), pg.Rect((275, 525), (150, 50)))
+            pg.draw.rect(screen, (125, 125, 100), pg.Rect((575, 525), (150, 50)))
 
             win_message = r.WinMessage(game.game.get_game_state()[:5])
-            replay_text = r.Button("Replay")
-            exit_text = r.Button("Exit")
+            replay_text = r.ButtonText("Replay")
+            exit_text = r.ButtonText("Exit")
 
             screen.blit(win_message.message, (250, 420))
             screen.blit(replay_text.button_text, (300, 535))
@@ -116,12 +115,15 @@ def run_game():
 
             pg.display.update()
 
-            while not again:
+            # Awaits player choosing to either play again, or to exit
+            while not play_again:
+
+                # Listens for mouse click
                 for event in pg.event.get():
                     if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
                         if 525 < event.pos[1] < 575:
                             if 275 < event.pos[0] < 425:
-                                again = True
+                                play_again = True
 
                             elif 575 < event.pos[0] < 725:
                                 sys.exit()

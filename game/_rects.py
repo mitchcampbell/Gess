@@ -8,7 +8,7 @@ class Board:
         self.screen = screen
 
         # Creates a rect containing the board background image
-        self.image = pg.image.load('game_images/boards/1000_wood_teak.bmp')
+        self.image = pg.image.load('game_images/boards/1000_wood_teak.jpg')
         self.rect = self.image.get_rect()
 
         # Sets "center" x and y positions to the same as that of the entire viewing screen
@@ -69,10 +69,31 @@ class WinMessage:
         self.message = font.render(winner + " WINS!", False, (80, 80, 70))
 
 
-class Button:
+class ButtonText:
 
     def __init__(self, in_text):
 
         pg.font.init()
         font = pg.font.SysFont("Calibri", 40)
         self.button_text = font.render(in_text, False, (80, 80, 70))
+
+
+class Button(pg.Rect):
+
+    def __init__(self, left, top, width, height, screen, color, text=None):
+
+        super().__init__(left, top, width, height)
+
+        self.screen = screen
+        self.color = color
+        self.text = text
+
+    def add_text(self):
+
+        # TODO Implement
+
+        pass
+
+    def blitme(self):
+
+        pg.draw.rect(self.screen, self.color, self)
