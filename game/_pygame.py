@@ -1,3 +1,4 @@
+import os
 import sys
 import pygame as pg
 import _state as st
@@ -22,7 +23,11 @@ def run_game():
     pg.display.set_caption("Gess")
 
     #
-    background = r.Board(screen)
+    background = r.Board(screen, game.settings)
+
+    # Creates background switch buttons
+    le = r.Button(800, 50, 50, 30, screen, (200, 200, 200), "Left")
+    ri = r.Button(875, 50, 50, 30, screen, (200, 200, 200), "Right")
 
     # Initializes variables used to track game state
     start_pos = None
@@ -44,6 +49,14 @@ def run_game():
                 # If window is closed, exits game.
                 if event.type == pg.QUIT:
                     sys.exit()
+
+                elif event.type == pg.MOUSEBUTTONDOWN and le.collidepoint(event.pos):
+                    game.settings.set_background("left")
+                    background = r.Board(screen, game.settings)
+
+                elif event.type == pg.MOUSEBUTTONDOWN and ri.collidepoint(event.pos):
+                    game.settings.set_background("right")
+                    background = r.Board(screen, game.settings)
 
                 # Checks for any clicks of the Left Mouse Button (LMB)
                 elif \
@@ -86,6 +99,10 @@ def run_game():
         background.blitme()
         f.draw_lines(screen, x_off, y_off)
 
+        # Draws background image switch buttons to screen
+        le.blitme()
+        ri.blitme()
+
         # Draws border on selected token, if applicable
         if t_border is not None:
             t_border.blitme()
@@ -104,6 +121,8 @@ def run_game():
             pg.draw.rect(screen, (225, 225, 200), pg.Rect((50, 400), (900, 200)))
             pg.draw.rect(screen, (125, 125, 100), pg.Rect((275, 525), (150, 50)))
             pg.draw.rect(screen, (125, 125, 100), pg.Rect((575, 525), (150, 50)))
+
+
 
             win_message = r.WinMessage(game.game.get_game_state()[:5])
             replay_text = r.ButtonText("Replay")

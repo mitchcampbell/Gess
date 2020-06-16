@@ -1,14 +1,15 @@
 import pygame as pg
+import _state as st
 
 
 class Board:
 
-    def __init__(self, screen):
+    def __init__(self, screen, settings):
 
         self.screen = screen
 
         # Creates a rect containing the board background image
-        self.image = pg.image.load('game_images/boards/1000_wood_teak.jpg')
+        self.image = pg.image.load('game_images/boards/' + settings.bg_image)
         self.rect = self.image.get_rect()
 
         # Sets "center" x and y positions to the same as that of the entire viewing screen
