@@ -21,30 +21,47 @@ def run_game():
 
     # Creates viewing window
     screen_change_test = None  # TODO Remove after testing
-    screen = pg.display.set_mode((set.screen_width, set.screen_height))
+    screen = pg.display.set_mode((set.screen_width, set.screen_height), flags=pg.FULLSCREEN)
     pg.display.set_caption("Gess")
 
     #
     background = r.Board(screen, game.settings)
 
     # Creates background switch buttons
-    le = r.Button(775, 50, 50, 30, screen, (200, 200, 200), "Left")
-    ri = r.Button(850, 50, 50, 30, screen, (200, 200, 200), "Right")
+    le = r.Button(775, 20, 50, 30, screen, (225, 225, 225), "Left")
+    ri = r.Button(850, 20, 50, 30, screen, (225, 225, 225), "Right")
 
     # TODO Implement correctly after testing
     # sm = r.Button(775, 90, 50, 30, screen, (200, 200, 200), "Small")
     # la = r.Button(850, 90, 50, 30, screen, (200, 200, 200), "Large")
 
+    # Create full-screen toggle button
+    fs_toggle = r.Button(775, 60, 125, 30, screen, (200, 200, 200), "Fullscreen / Windowed")
+    full_screen = True
+
     # Initializes variables used to track game state
     start_pos = None
     t_border = None
     play_again = False
+    toggle_fs = False
 
     while True:
 
-        if screen_change_test is not None:
-            screen = pg.display.set_mode((set.screen_width + screen_change_test, set.screen_height + screen_change_test))
-            screen_change_test = None
+        ## TODO Implement fully after testing
+        # if screen_change_test is not None:
+        #     screen = pg.display.set_mode((set.screen_width + screen_change_test, set.screen_height + screen_change_test))
+        #     screen_change_test = None
+
+        if toggle_fs:
+            if full_screen:
+                pg.display.set_mode((set.screen_width, set.screen_height), flags=0)
+                full_screen = False
+                toggle_fs = False
+
+            else:
+                pg.display.set_mode((set.screen_width, set.screen_height), pg.FULLSCREEN)
+                full_screen = True
+                toggle_fs = False
 
         if play_again:
             game.new_game()
@@ -59,6 +76,9 @@ def run_game():
                 # If window is closed, exits game.
                 if event.type == pg.QUIT:
                     sys.exit()
+
+                elif event.type == pg.MOUSEBUTTONDOWN and fs_toggle.collidepoint(event.pos):
+                    toggle_fs = True
 
                 elif event.type == pg.MOUSEBUTTONDOWN and le.collidepoint(event.pos):
                     game.settings.set_background("left")
@@ -117,12 +137,21 @@ def run_game():
         background.blitme()
         f.draw_lines(screen, x_off, y_off)
 
-        # Draws background image switch buttons to screen
-        # TODO Refactor
+        # Draws background image switch and fullscreen toggle buttons to screen
         le.blitme()
         ri.blitme()
         # sm.blitme()
         # la.blitme()
+        fs_toggle.blitme()
+
+        # TODO Refactor how button text is created and associated with button
+        le_text = r.ButtonText("BG Left", 12)
+        ri_text = r.ButtonText("BG Right", 12)
+        fs_text = r.ButtonText("Toggle Fullscreen", 14)
+
+        screen.blit(le_text.button_text, (780, 30))
+        screen.blit(ri_text.button_text, (851, 30))
+        screen.blit(fs_text.button_text, (780, 65))
 
         # Draws border on selected token, if applicable
         if t_border is not None:
@@ -143,11 +172,10 @@ def run_game():
             pg.draw.rect(screen, (125, 125, 100), pg.Rect((275, 525), (150, 50)))
             pg.draw.rect(screen, (125, 125, 100), pg.Rect((575, 525), (150, 50)))
 
-
-
+            # Creates and draws text for win-screen buttons
             win_message = r.WinMessage(game.game.get_game_state()[:5])
-            replay_text = r.ButtonText("Replay")
-            exit_text = r.ButtonText("Exit")
+            replay_text = r.ButtonText("Replay", 40)
+            exit_text = r.ButtonText("Exit", 40)
 
             screen.blit(win_message.message, (250, 420))
             screen.blit(replay_text.button_text, (300, 535))

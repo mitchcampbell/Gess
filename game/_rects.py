@@ -66,16 +66,16 @@ class WinMessage:
     def __init__(self, winner):
 
         pg.font.init()
-        font = pg.font.SysFont("Calibri", 100)
+        font = pg.font.SysFont("arial", 100)
         self.message = font.render(winner + " WINS!", False, (80, 80, 70))
 
 
 class ButtonText:
 
-    def __init__(self, in_text):
+    def __init__(self, in_text, font_size):
 
         pg.font.init()
-        font = pg.font.SysFont("Calibri", 40)
+        font = pg.font.SysFont("arial", font_size)
         self.button_text = font.render(in_text, False, (80, 80, 70))
 
 
