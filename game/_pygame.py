@@ -7,6 +7,7 @@ import _functions as f
 
 
 def run_game():
+
     # Initializes PyGame
     pg.init()
 
@@ -19,6 +20,7 @@ def run_game():
     y_off = set.board_y_offset
 
     # Creates viewing window
+    screen_change_test = None  # TODO Remove after testing
     screen = pg.display.set_mode((set.screen_width, set.screen_height))
     pg.display.set_caption("Gess")
 
@@ -26,8 +28,12 @@ def run_game():
     background = r.Board(screen, game.settings)
 
     # Creates background switch buttons
-    le = r.Button(800, 50, 50, 30, screen, (200, 200, 200), "Left")
-    ri = r.Button(875, 50, 50, 30, screen, (200, 200, 200), "Right")
+    le = r.Button(775, 50, 50, 30, screen, (200, 200, 200), "Left")
+    ri = r.Button(850, 50, 50, 30, screen, (200, 200, 200), "Right")
+
+    # TODO Implement correctly after testing
+    # sm = r.Button(775, 90, 50, 30, screen, (200, 200, 200), "Small")
+    # la = r.Button(850, 90, 50, 30, screen, (200, 200, 200), "Large")
 
     # Initializes variables used to track game state
     start_pos = None
@@ -36,9 +42,13 @@ def run_game():
 
     while True:
 
+        if screen_change_test is not None:
+            screen = pg.display.set_mode((set.screen_width + screen_change_test, set.screen_height + screen_change_test))
+            screen_change_test = None
+
         if play_again:
             game.new_game()
-            again = False
+            play_again = False
 
         # If game is not over, executes main gameplay loop
         if game.game.get_game_state() == "UNFINISHED":
@@ -57,6 +67,14 @@ def run_game():
                 elif event.type == pg.MOUSEBUTTONDOWN and ri.collidepoint(event.pos):
                     game.settings.set_background("right")
                     background = r.Board(screen, game.settings)
+
+                # # TODO Implement correctly after testing
+                # elif event.type == pg.MOUSEBUTTONDOWN and sm.collidepoint(event.pos):
+                #     screen_change_test = -100
+                #
+                # # TODO Implement correctly after testing
+                # elif event.type == pg.MOUSEBUTTONDOWN and la.collidepoint(event.pos):
+                #     screen_change_test = 100
 
                 # Checks for any clicks of the Left Mouse Button (LMB)
                 elif \
@@ -100,8 +118,11 @@ def run_game():
         f.draw_lines(screen, x_off, y_off)
 
         # Draws background image switch buttons to screen
+        # TODO Refactor
         le.blitme()
         ri.blitme()
+        # sm.blitme()
+        # la.blitme()
 
         # Draws border on selected token, if applicable
         if t_border is not None:
