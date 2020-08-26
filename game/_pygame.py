@@ -36,7 +36,7 @@ def run_game():
     # la = r.Button(850, 90, 50, 30, screen, (200, 200, 200), "Large")
 
     # Create full-screen toggle button
-    fs_toggle = r.Button(775, 60, 125, 30, screen, (200, 200, 200), "Fullscreen / Windowed")
+    fs_toggle = r.Button(775, 60, 125, 30, screen, (200, 200, 200), "Toggle Fullscreen")
     full_screen = True
 
     # Initializes variables used to track game state
