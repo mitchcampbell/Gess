@@ -34,16 +34,16 @@ If you are still having trouble installing PyGame, please visit the PyGame Wiki'
 
 The game rules are available [here](https://www.chessvariants.com/crossover.dir/gess.html#:~:text=There%20are%20two%20players%2C%20black,belonging%20to%20the%20opposing%20player.).
 
-**PyGame**
+**via the GUI**
 
 ```
-python game\_pygame.py
+python game/_pygame.py
 ```
 
-**Command Line**
+**via the Command Line**
 
 ```
-python game\GessGame.py
+python game/GessGame.py
 ```
 
 ### Work Left To Do
