@@ -2,7 +2,7 @@
 
 ### Motivation
 
-My final project for CS162 was an implementation of the board game [Gess](https://www.chessvariants.com/crossover.dir/gess.html) in Python, playable from the command line. Later, I decided to also make the game playable via a GUI interface using [PyGame](https://www.pygame.org/).
+My final project for CS162 (Intro CS II) was an implementation of the board game [Gess](https://www.chessvariants.com/crossover.dir/gess.html) in Python, playable from the command line. Later, I decided to also make the game playable via a GUI interface using [PyGame](https://www.pygame.org/).
 
 ### What You'll Need
 
