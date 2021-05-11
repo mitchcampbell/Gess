@@ -1,10 +1,10 @@
 # Gess
 
-### Motivation
+## Motivation
 
 My final project for CS162 (Intro CS II) was an implementation of the board game [Gess](https://www.chessvariants.com/crossover.dir/gess.html) in Python, playable from the command line. Later, I decided to also make the game playable via a GUI interface using [PyGame](https://www.pygame.org/).
 
-### What You'll Need
+## What You'll Need
 
 * Full GUI version: 
 The game requires Python3.6+ and PyGame to run the GUI version. 
@@ -14,38 +14,38 @@ Without PyGame, the game can still be played from the command line with any vers
 
 **To install PyGame:**
 
-```
-python3 -m pip install pygame
+```bash
+$ python3 -m pip install pygame
 ```
 
 If you don't have admin rights, or would like to only install PyGame for your current user profile, try adding the `user` flag, like so:
 
-```
-python3 -m pip install pygame --user
+```bash
+$ python3 -m pip install pygame --user
 ```
 
 If you are still having trouble installing PyGame, please visit the PyGame Wiki's [Getting Started](https://www.pygame.org/wiki/GettingStarted) page.
 
-### In Action
+## In Action
 
 ![Image of game being played](images/in_action_sm.png)
 
-### How To Play
+## How To Play
 
 The game rules are available [here](https://www.chessvariants.com/crossover.dir/gess.html#:~:text=There%20are%20two%20players%2C%20black,belonging%20to%20the%20opposing%20player.).
 
 **via the GUI**
 
-```
-python game/_pygame.py
+```bash
+$ python game/_pygame.py
 ```
 
 **via the Command Line**
 
-```
-python game/GessGame.py
+```bash
+$ python game/GessGame.py
 ```
 
-### Work Left To Do
+## Work Left To Do
 
 Given that this game began as a project with a few strict requirements for how it should be interacted with, and the PyGame GUI was grafted on after completion, there are some peculiarities in the architecture and design. For example, most of the game logic resides in a single file, GessGame.py, and the files starting with an underscore "_" contain the means by which the PyGame GUI "plays" GessGame.py. That said, the game doesn't really require much in the way of performance, so I may or may not refactor the project in the future depending on if it seems like a worthwhile learning experience.
